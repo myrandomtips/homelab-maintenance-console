@@ -145,12 +145,16 @@ class HistoryCreate(BaseModel):
     result: HistoryResult
     details: str | None = Field(default=None, max_length=2000)
 
-    @field_validator("action", "details")
+    @field_validator("action", mode="before")
     @classmethod
-    def strip_text(cls, value: str | None) -> str | None:
+    def strip_action(cls, value: object) -> object:
+        return value.strip() if isinstance(value, str) else value
+
+    @field_validator("details", mode="before")
+    @classmethod
+    def strip_details(cls, value: object) -> object:
         if value is None:
             return None
-        stripped = value.strip()
-        if not stripped:
-            return None
-        return stripped
+        if isinstance(value, str):
+            return value.strip() or None
+        return value

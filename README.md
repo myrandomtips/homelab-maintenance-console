@@ -43,9 +43,20 @@ Example `.env`:
 BIND_ADDRESS=127.0.0.1
 BACKEND_PORT=8001
 FRONTEND_PORT=5174
+CORS_ORIGINS=
 ```
 
 The console binds to `127.0.0.1` by default. Setting `BIND_ADDRESS=0.0.0.0` exposes both services on the LAN and should only be done deliberately, with appropriate network controls and authentication in front of the application.
+
+HTTP CORS and the interactive SSH WebSocket use the same exact origin allowlist. By default, only `http://localhost:${FRONTEND_PORT}` and `http://127.0.0.1:${FRONTEND_PORT}` are accepted. If the frontend is deliberately opened through another hostname or LAN address, set a comma-separated allowlist with schemes and ports but no paths, for example:
+
+```dotenv
+BIND_ADDRESS=0.0.0.0
+FRONTEND_PORT=5174
+CORS_ORIGINS=http://console.example.test:5174,http://192.0.2.50:5174
+```
+
+When `CORS_ORIGINS` is non-empty it replaces, rather than extends, the localhost defaults. Missing and unlisted WebSocket origins are rejected before inventory lookup or any SSH connection attempt.
 
 ## Inventory and Web UI URLs
 
@@ -124,6 +135,15 @@ The database is created automatically at `data/homelab.db` on the host and `/app
 | `GET /api/history?host_id=...&service_id=...` | Read filtered SQLite history |
 | `POST /api/history` | Add a validated manual maintenance record |
 | `WS /ws/ssh/{host_id}` | Optional interactive SSH shell for an inventory host |
+
+## Tests
+
+Install the backend test dependency and run the focused validation suite:
+
+```bash
+python -m pip install -r backend/requirements-dev.txt
+python -m unittest discover -s backend/tests -v
+```
 
 ## v0.1 migration
 

@@ -8,6 +8,7 @@ services:
     environment:
       DATABASE_PATH: /app/data/homelab.db
       FRONTEND_PORT: "${FRONTEND_PORT:-5173}"
+      CORS_ORIGINS: "${CORS_ORIGINS:-}"
     volumes:
       - ./backend:/app/backend
       - ./config:/app/config:ro

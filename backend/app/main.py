@@ -4,7 +4,7 @@ import json
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect, status as http_status
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import initialize_database
@@ -39,12 +39,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-frontend_port = os.getenv("FRONTEND_PORT", "5173")
-default_origins = [f"http://localhost:{frontend_port}", f"http://127.0.0.1:{frontend_port}"]
-configured_origins = [item.strip() for item in os.getenv("CORS_ORIGINS", "").split(",") if item.strip()]
+
+def get_allowed_origins() -> list[str]:
+    frontend_port = os.getenv("FRONTEND_PORT", "5173")
+    default_origins = [f"http://localhost:{frontend_port}", f"http://127.0.0.1:{frontend_port}"]
+    configured_origins = [item.strip() for item in os.getenv("CORS_ORIGINS", "").split(",") if item.strip()]
+    return configured_origins or default_origins
+
+
+allowed_origins = get_allowed_origins()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=configured_origins or default_origins,
+    allow_origins=allowed_origins,
     allow_credentials=False,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
@@ -151,6 +157,14 @@ async def _stream_terminal(websocket: WebSocket, process) -> None:
 
 @app.websocket("/ws/ssh/{host_id}")
 async def ssh_terminal(websocket: WebSocket, host_id: str) -> None:
+    origin = websocket.headers.get("origin")
+    if not origin or origin not in allowed_origins:
+        await websocket.close(
+            code=http_status.WS_1008_POLICY_VIOLATION,
+            reason="WebSocket origin is not allowed",
+        )
+        return
+
     await websocket.accept()
     try:
         host = get_host(host_id)
