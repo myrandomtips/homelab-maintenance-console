@@ -1,4 +1,4 @@
-import { Check, Copy, Play } from "lucide-react";
+import { Check, Copy, FlaskConical } from "lucide-react";
 import { useState } from "react";
 
 interface CommandBlockProps {
@@ -37,7 +37,7 @@ export function CommandBlock({ command, runnable, onRun }: CommandBlockProps) {
         </button>
         {runnable && (
           <button className="button button-primary button-small" onClick={() => onRun(command)}>
-            <Play size={14} fill="currentColor" /> Run
+            <FlaskConical size={14} /> Simulate
           </button>
         )}
       </div>
