@@ -1,0 +1,26 @@
+# Private configuration
+config/inventory.yaml
+.env
+
+# SSH keys / credentials
+secrets/*
+!secrets/.gitkeep
+
+# Runtime data
+data/*
+!data/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,144 @@
+application:
+  name: Homelab Maintenance Console
+  version: 0.1.0
+
+hosts:
+  - id: server-one
+    name: Server One
+    hostname: server-one
+    address: 192.168.1.10
+    os: Ubuntu 24.04 LTS
+    status: online
+    updates: 2
+    uptime: 21d 4h 23m
+    last_check: 1m ago
+    reboot_required: true
+    connection:
+      ssh:
+        enabled: true
+        user: admin
+      web_url: http://192.168.1.10
+    services:
+      - id: ubuntu
+        name: Ubuntu OS
+        type: operating-system
+        status: online
+        updates: 2
+        runbook: ubuntu
+      - id: docker
+        name: Docker
+        type: container-engine
+        status: online
+        updates: 0
+        runbook: docker
+      - id: tailscale
+        name: Tailscale
+        type: networking
+        status: online
+        updates: 0
+        runbook: tailscale
+      - id: example-app
+        name: Example App
+        type: application
+        status: online
+        updates: 0
+        runbook: docker
+
+  - id: server-two
+    name: Server Two
+    hostname: server-two
+    address: 192.168.1.20
+    os: Ubuntu 24.04 LTS
+    status: online
+    updates: 2
+    uptime: 14d 11h 08m
+    last_check: 2m ago
+    reboot_required: false
+    connection:
+      ssh:
+        enabled: true
+        user: admin
+      web_url: http://192.168.1.20
+    services:
+      - id: ubuntu
+        name: Ubuntu OS
+        type: operating-system
+        status: online
+        updates: 1
+        runbook: ubuntu
+      - id: docker
+        name: Docker
+        type: container-engine
+        status: online
+        updates: 1
+        runbook: docker
+
+  - id: nas-server
+    name: NAS Server
+    hostname: nas-server
+    address: 192.168.1.30
+    os: TrueNAS SCALE 24.10
+    status: online
+    updates: 1
+    uptime: 47d 02h 51m
+    last_check: 1m ago
+    reboot_required: false
+    connection:
+      ssh:
+        enabled: true
+        user: admin
+      web_url: http://192.168.1.30
+    services:
+      - id: system
+        name: System
+        type: operating-system
+        status: online
+        updates: 0
+        runbook: truenas
+      - id: storage-pools
+        name: Storage Pools
+        type: storage
+        status: online
+        updates: 0
+        runbook: truenas
+      - id: apps
+        name: Apps
+        type: application
+        status: online
+        updates: 1
+        runbook: truenas
+
+  - id: raspberry-pi
+    name: Raspberry Pi
+    hostname: raspberry-pi
+    address: 192.168.1.40
+    os: Raspberry Pi OS 12
+    status: online
+    updates: 1
+    uptime: 8d 18h 36m
+    last_check: 3m ago
+    reboot_required: false
+    connection:
+      ssh:
+        enabled: true
+        user: admin
+      web_url: http://192.168.1.40
+    services:
+      - id: raspberry-pi-os
+        name: Raspberry Pi OS
+        type: operating-system
+        status: online
+        updates: 0
+        runbook: ubuntu
+      - id: docker
+        name: Docker
+        type: container-engine
+        status: online
+        updates: 1
+        runbook: docker
+      - id: pi-hole
+        name: Pi-hole
+        type: networking
+        status: online
+        updates: 0
+        runbook: tailscale
