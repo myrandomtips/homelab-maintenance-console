@@ -1,12 +1,12 @@
 application:
   name: Homelab Maintenance Console
-  version: 0.1.0
+  version: 0.2.0
 
 hosts:
   - id: server-one
     name: Server One
     hostname: server-one
-    address: 192.168.1.10
+    address: 192.0.2.10
     os: Ubuntu 24.04 LTS
     status: online
     updates: 2
@@ -15,9 +15,12 @@ hosts:
     reboot_required: true
     connection:
       ssh:
-        enabled: true
+        enabled: false
         user: admin
-      web_url: http://192.168.1.10
+        port: 22
+        key_name: homelab_ed25519
+        known_hosts_name: known_hosts
+      web_url: http://192.0.2.10
     services:
       - id: ubuntu
         name: Ubuntu OS
@@ -43,11 +46,12 @@ hosts:
         status: online
         updates: 0
         runbook: docker
+        web_url: http://192.0.2.10:8080
 
   - id: server-two
     name: Server Two
     hostname: server-two
-    address: 192.168.1.20
+    address: 192.0.2.20
     os: Ubuntu 24.04 LTS
     status: online
     updates: 2
@@ -56,9 +60,12 @@ hosts:
     reboot_required: false
     connection:
       ssh:
-        enabled: true
+        enabled: false
         user: admin
-      web_url: http://192.168.1.20
+        port: 22
+        key_name: homelab_ed25519
+        known_hosts_name: known_hosts
+      web_url: http://192.0.2.20
     services:
       - id: ubuntu
         name: Ubuntu OS
@@ -76,7 +83,7 @@ hosts:
   - id: nas-server
     name: NAS Server
     hostname: nas-server
-    address: 192.168.1.30
+    address: 192.0.2.30
     os: TrueNAS SCALE 24.10
     status: online
     updates: 1
@@ -85,9 +92,12 @@ hosts:
     reboot_required: false
     connection:
       ssh:
-        enabled: true
+        enabled: false
         user: admin
-      web_url: http://192.168.1.30
+        port: 22
+        key_name: homelab_ed25519
+        known_hosts_name: known_hosts
+      web_url: http://192.0.2.30
     services:
       - id: system
         name: System
@@ -111,7 +121,7 @@ hosts:
   - id: raspberry-pi
     name: Raspberry Pi
     hostname: raspberry-pi
-    address: 192.168.1.40
+    address: 192.0.2.40
     os: Raspberry Pi OS 12
     status: online
     updates: 1
@@ -120,9 +130,12 @@ hosts:
     reboot_required: false
     connection:
       ssh:
-        enabled: true
+        enabled: false
         user: admin
-      web_url: http://192.168.1.40
+        port: 22
+        key_name: homelab_ed25519
+        known_hosts_name: known_hosts
+      web_url: http://192.0.2.40
     services:
       - id: raspberry-pi-os
         name: Raspberry Pi OS
