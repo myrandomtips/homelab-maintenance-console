@@ -20,7 +20,7 @@ Homelab Maintenance Console is an open-source, Dockerised dashboard for keeping 
 
 ## Screenshot
 
-> Screenshot placeholder — add an approved interface capture here before publishing the repository.
+![Homelab Maintenance Console](docs/images/homelab-maintenance-console.png)
 
 ## Technology
 
@@ -37,7 +37,7 @@ Homelab Maintenance Console is an open-source, Dockerised dashboard for keeping 
 ## Start the console
 
 ```bash
-git clone https://github.com/your-account/homelab-maintenance-console.git
+git clone https://github.com/myrandomtips/homelab-maintenance-console.git
 cd homelab-maintenance-console
 docker compose up --build
 ```
@@ -114,4 +114,4 @@ SSH credentials should never be stored in Git. A later milestone should use an a
 
 ## License
 
-A license has not yet been selected. Add an open-source license before publishing the repository.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
